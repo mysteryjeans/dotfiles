@@ -1,0 +1,17 @@
+Xft.dpi: 96
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+Xcursor.size: 16W
+URxvt.letterSpace: -1
+URxvt.urgentOnBell: true
+URxvt.scrollBar: false
+URxvt.font: xft:monospace:size=10 
+URxvt.depth: 24
+URxvt.url-launcher: /usr/bin/qutebrowser
+URxvt.matcher.button: 1
+URxvt.perl-ext-common: default,matcher,vtwheel
