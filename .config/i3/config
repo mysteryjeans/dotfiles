@@ -200,9 +200,27 @@ bindsym $mod+shift+x exec i3lock --color "$bg-color"
 # bindsym shift+space exec rofi -show run
 bindsym $mod+d exec rofi -show run -lines 8 -eh 2 -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
 
+set $Locker i3lock -i /home/faraz/Pictures/lock-wallpaper.png  && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+End mode "$mode_system"
+exec xautolock -time 1 $Locker
+
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec echo $(($(cat /sys/class/backlight/intel_backlight/brightness)+5)) | sudo tee /sys/class/backlight/intel_backlight/brightness
-bindsym XF86MonBrightnessDown exec echo $(($(cat /sys/class/backlight/intel_backlight/brightness)-5)) | sudo tee /sys/class/backlight/intel_backlight/brightness 
+bindsym XF86MonBrightnessUp exec echo $(($(cat /sys/class/backlight/intel_backlight/brightness)+25)) | tee /sys/class/backlight/intel_backlight/brightness
+bindsym XF86MonBrightnessDown exec echo $(($(cat /sys/class/backlight/intel_backlight/brightness)-25)) | tee /sys/class/backlight/intel_backlight/brightness 
 
 
 # Volume
@@ -230,16 +248,8 @@ bindsym $mod+m exec urxvt -e ranger
 bindsym --release $mod+shift+p exec --no-startup-id scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
 bindsym ctrl+p exec --no-startup-id scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
 
-# Power options
-# bindsym $mod+Shift+BackSpace exec ~/.scripts/prompt "Are you sure you want to reboot?" "sudo reboot"
-# bindsym XF86PowerOff exec ~/.scripts/prompt "Are you sure you want to shutdown?" "$shutdown"
-
-# My command
-bindsym $mod+c exec ~/.scripts/commands
 
 for_window [class="XTerm" title="^WiFi-Menu$"] floating enable
 #for_window [class="^[fF]irefox" title="^Save As$"] floating enable, resize set 1600 1200, move position center
 #for_window [class="^[cC]hromium"] floating enable, resize set 1600 1200, move position center
 
-exec sudo /usr/local/sbin/remove_card_reader.sh
-exec pkill -RTMIN+10 i3blocks
