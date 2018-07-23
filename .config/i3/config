@@ -196,12 +196,10 @@ bar {
 }
 
 
-bindsym $mod+shift+x exec i3lock --color "$bg-color"
-# bindsym shift+space exec rofi -show run
-bindsym $mod+d exec rofi -show run -lines 8 -eh 2 -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+bindsym $mod+d exec rofi -show run -lines 8 -eh 2 -bw 0 -font "San Francisco Display 18"
+bindsym $mod+n exec networkmanager_dmenu
 
 set $Locker i3lock -i /home/faraz/Pictures/lock-wallpaper.png  && sleep 1
-
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id $Locker, mode "default"
@@ -216,7 +214,7 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 bindsym $mod+End mode "$mode_system"
-exec xautolock -time 1 $Locker
+exec xautolock -time 5 -locker "$Locker"
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec echo $(($(cat /sys/class/backlight/intel_backlight/brightness)+25)) | tee /sys/class/backlight/intel_backlight/brightness

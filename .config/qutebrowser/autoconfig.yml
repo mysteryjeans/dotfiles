@@ -11,7 +11,32 @@ settings:
         J: tab-prev
         K: tab-next
         t: open -t
+  fonts.completion.category:
+    global: bold 7pt monospace
+  fonts.completion.entry:
+    global: 7pt monospace
+  fonts.debug_console:
+    global: 7pt monospace
+  fonts.downloads:
+    global: 7pt monospace
+  fonts.hints:
+    global: bold 7pt monospace
+  fonts.keyhint:
+    global: 7pt monospace
+  fonts.messages.error:
+    global: 7pt monospace
+  fonts.messages.info:
+    global: 7pt monospace
+  fonts.messages.warning:
+    global: 7pt monospace
+  fonts.prompts:
+    global: 7pt sans-serif
+  fonts.statusbar:
+    global: 7pt monospace
+  fonts.tabs:
+    global: 7pt monospace
   url.searchengines:
     global:
       DEFAULT: https://duckduckgo.com/?q={}
+      aw: https://wiki.archlinux.org/index.php?search={}
       g: https://www.google.com/search?q={}
