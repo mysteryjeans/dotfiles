@@ -1,121 +1,221 @@
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
+" Sample .vimrc file by Martin Brochhaus
+" Presented at PyCon APAC 2012
+" Modified by Faraz M. Khan
 
-set nocompatible
 
-set background=dark
-colorscheme solarized8
+" Automatic reloading of .vimrc
+autocmd! bufwritepost .vimrc source %
 
-map <C-n> :NERDTreeToggle<CR>
-map <C-y> :nohlsearch<CR>
 
-set hidden
-set relativenumber
+" Better copy & paste
+" When you want to paste large blocks of code into vim, press F2 before you
+" paste. At the bottom you should see ``-- INSERT (paste) --``.
+set pastetoggle=<F2>
 set clipboard=unnamedplus
+
+
+" Mouse and backspace
+set mouse=a  " on OSX press ALT and click
+"" set bs=2     " make backspace behave like normal again
+
+
+" Map CapsLock key as Escape
+au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
+
+
+" Rebind <Leader> key
+" I like to have it here becuase it is easier to reach than the default and
+" it is next to ``m`` and ``n`` which I use for navigating between tabs.
+" let mapleader = ","
+
+" Rebind <Leader> key to pink finger, lets try it
+let mapleader = "'"
+
+
+" Bind nohl
+" Removes highlight of your last search
+" ``<C>`` stands for ``CTRL`` and therefore ``<C-n>`` stands for ``CTRL+n``
+map <C-n> :nohl<CR>
+
+
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S> :update<CR>
+vnoremap <C-S> :update<CR>
+inoremap <C-S> <ESC>:update<CR>
+
+
+" Fixing PageUp & PageDown key
+nnoremap <PageUp> <C-u>
+nnoremap <PageDown> <C-d>
+
+
+" Quicksave command
+" Put 'stty -ixon' to disable Ctrl-S & Ctrl-Q in .bashrc
+noremap <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <C-O>:update<CR>
+
+
+" Quick quit command
+noremap <Leader>e :quit<CR>  " Quit current window
+noremap <Leader>E :qa!<CR>   " Quit all windows
+
+
+" bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
+" Every unnecessary keystroke that can be saved is good for your health :)
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+
+
+" easier moving between tabs
+map <Leader>n <esc>:tabprevious<CR>
+map <Leader>m <esc>:tabnext<CR>
+
+
+" map sort function to a key
+vnoremap <Leader>s :sort<CR>
+
+
+" easier moving of code blocks
+" Try to go into visual mode (v), thenselect several lines of code here and
+" then press ``>`` several times.
+vnoremap < <gv  " better indentation
+vnoremap > >gv  " better indentation
+
+
+" Show whitespace
+" MUST be inserted BEFORE the colorscheme command
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+au InsertLeave * match ExtraWhitespace /\s\+$/
+
+
+" Color scheme
+" mkdir -p ~/.vim/colors && cd ~/.vim/colors
+" wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
+set t_Co=256
+color wombat256mod
+
+
+" Enable syntax highlighting
+" You need to reload this file for the change to apply
+filetype off
+filetype plugin indent on
+syntax on
+
+
+" Showing line numbers and length
+set number  " show line numbers
+set tw=119   " width of document (used by gd)
+set nowrap  " don't automatically wrap on load
+set fo-=t   " don't automatically wrap text when typing
+set colorcolumn=120
+highlight ColorColumn ctermbg=233
+
+
+" easier formatting of paragraphs
+vmap Q gq
+nmap Q gqap
+
+
+" Useful settings
+"" set history=700
+"" set undolevels=700
+
+
+" Real programmers don't use TABs but spaces
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+
+
+" Make search case insensitive
 set hlsearch
-set tabstop=4 shiftwidth=4
-
-" Opens NERDTree if no arguments was passed to open
-autocmd StdinReadPre * let g:isReadingFromStdin = 1
-autocmd VimEnter * if !argc() && !exists('g:isReadingFromStdin') | NERDTree | endif
-
-autocmd VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-autocmd VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
-
-" OmniSharp 
-let g:OmniSharp_server_use_mono = 1
-let g:OmniSharp_server_path = '/home/faraz/.omnisharp/omnisharp-roslyn/omnisharp/OmniSharp.exe'
-
-let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
-"let g:OmniSharp_selector_ui = 'unite'  " Use ctrlp.vim
-
-" Set the type lookup function to use the preview window instead of echoing it
-"let g:OmniSharp_typeLookupInPreview = 1
-
-" Timeout in seconds to wait for a response from the server
-let g:OmniSharp_timeout = 5
-
-" Don't autoselect first omnicomplete option, show options even if there is only
-" one (so the preview documentation is accessible). Remove 'preview' if you
-" don't want to see any documentation whatsoever.
-set completeopt=longest,menuone,preview
-
-" Fetch full documentation during omnicomplete requests.
-" There is a performance penalty with this (especially on Mono).
-" By default, only Type/Method signatures are fetched. Full documentation can
-" still be fetched when you need it with the :OmniSharpDocumentation command.
-"let g:omnicomplete_fetch_full_documentation = 1
-
-" Set desired preview window height for viewing documentation.
-" You might also want to look at the echodoc plugin.
-set previewheight=5
-
-" Tell ALE to use OmniSharp for linting C# files, and no other linters.
-" let g:ale_linters = { 'cs': ['OmniSharp'] }
-
-augroup omnisharp_commands
-    autocmd!
-
-    " When Syntastic is available but not ALE, automatic syntax check on events
-    " (TextChanged requires Vim 7.4)
-    " autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
-
-    " Show type information automatically when the cursor stops moving
-    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
-
-    " The following commands are contextual, based on the cursor position.
-    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
-
-    " Finds members in the current buffer
-    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
-
-    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
-    autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
-    autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+set incsearch
+set ignorecase
+set smartcase
 
 
-    " Navigate up and down by method/property/field
-    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
-    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
-augroup END
-
-" Contextual code actions (uses fzf, CtrlP or unite.vim when available)
-nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
-" Run code actions with text selected in visual mode to extract method
-xnoremap <Leader><Space> :call OmniSharp#GetCodeActions('visual')<CR>
-
-" Rename with dialog
-nnoremap <Leader>nm :OmniSharpRename<CR>
-nnoremap <F2> :OmniSharpRename<CR>
-" Rename without dialog - with cursor on the symbol to rename: `:Rename newname`
-command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-
-nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
-
-" Start the omnisharp server for the current solution
-nnoremap <Leader>ss :OmniSharpStartServer<CR>
-nnoremap <Leader>sp :OmniSharpStopServer<CR>
-
-" Add syntax highlighting for types and interfaces
-nnoremap <Leader>th :OmniSharpHighlightTypes<CR>
-
-" Enable snippet completion
-" let g:OmniSharp_want_snippet=1
+" Disable stupid backup and swap files - they trigger too many events
+" for file system watchers
+"" set nobackup
+"" set nowritebackup
+"" set noswapfile
 
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Setup Pathogen to manage your plugins
+" mkdir -p ~/.vim/autoload ~/.vim/bundle
+" curl -so ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+" Now you can install any plugin into a .vim/bundle/plugin-name/ folder
+call pathogen#infect()
 
-let g:syntastic_cs_checkers = ['code_checker']
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
+" ============================================================================
+" Python IDE Setup
+" ============================================================================
+
+
+" Settings for vim-powerline
+" cd ~/.vim/bundle
+" git clone git://github.com/Lokaltog/vim-powerline.git
+set laststatus=2
+
+
+" Settings for ctrlp
+" cd ~/.vim/bundle
+" git clone https://github.com/kien/ctrlp.vim.git
+let g:ctrlp_max_height = 30
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+
+
+" Settings for python-mode
+" Note: I'm no longer using this. Leave this commented out
+" and uncomment the part about jedi-vim instead
+" cd ~/.vim/bundle
+" git clone https://github.com/klen/python-mode
+"" map <Leader>g :call RopeGotoDefinition()<CR>
+"" let ropevim_enable_shortcuts = 1
+"" let g:pymode_rope_goto_def_newwin = "vnew"
+"" let g:pymode_rope_extended_complete = 1
+"" let g:pymode_breakpoint = 0
+"" let g:pymode_syntax = 1
+"" let g:pymode_syntax_builtin_objs = 0
+"" let g:pymode_syntax_builtin_funcs = 0
+"" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+
+" Settings for jedi-vim
+" cd ~/.vim/bundle
+" git clone git://github.com/davidhalter/jedi-vim.git
+"" let g:jedi#usages_command = "<leader>z"
+"" let g:jedi#popup_on_dot = 0
+"" let g:jedi#popup_select_first = 0
+"" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+
+" Better navigating through omnicomplete option list
+" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+"" set completeopt=longest,menuone
+"" function! OmniPopup(action)
+""     if pumvisible()
+""         if a:action == 'j'
+""             return "\<C-N>"
+""         elseif a:action == 'k'
+""             return "\<C-P>"
+""         endif
+""     endif
+""     return a:action
+"" endfunction
+
+"" inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+"" inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+
+
+" Python folding
+" mkdir -p ~/.vim/ftplugin
+" wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
+"" set nofoldenable
