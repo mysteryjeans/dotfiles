@@ -27,9 +27,6 @@ au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 " Rebind <Leader> key
 " I like to have it here becuase it is easier to reach than the default and
 " it is next to ``m`` and ``n`` which I use for navigating between tabs.
-" let mapleader = ","
-
-" Rebind <Leader> key to pink finger, lets try it
 let mapleader = "'"
 
 
@@ -37,12 +34,6 @@ let mapleader = "'"
 " Removes highlight of your last search
 " ``<C>`` stands for ``CTRL`` and therefore ``<C-n>`` stands for ``CTRL+n``
 map <C-n> :nohl<CR>
-
-
-" Use CTRL-S for saving, also in Insert mode
-noremap <C-S> :update<CR>
-vnoremap <C-S> :update<CR>
-inoremap <C-S> <ESC>:update<CR>
 
 
 " Fixing PageUp & PageDown key
@@ -88,15 +79,15 @@ vnoremap > >gv  " better indentation
 
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-au InsertLeave * match ExtraWhitespace /\s\+$/
+" autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+" au InsertLeave * match ExtraWhitespace /\s\+$/
 
 
 " Color scheme
 " mkdir -p ~/.vim/colors && cd ~/.vim/colors
 " wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
-set t_Co=256
-color wombat256mod
+" set t_Co=256
+" color wombat256mod
 
 
 " Enable syntax highlighting
@@ -169,9 +160,14 @@ set laststatus=2
 " cd ~/.vim/bundle
 " git clone https://github.com/kien/ctrlp.vim.git
 let g:ctrlp_max_height = 30
+let g:ctrlp_map = '<c-o>'
+let g:ctrlp_cmd = 'CtrlP'
 set wildignore+=*.pyc
 set wildignore+=*_build/*
 set wildignore+=*/coverage/*
+nnoremap <c-b> :CtrlPBuffer<CR>
+inoremap <c-b> <ESC>:CtrlPBuffer<CR>
+vnoremap <c-b> <ESC>:CtrlPBuffer<CR>
 
 
 " Settings for python-mode
@@ -179,15 +175,15 @@ set wildignore+=*/coverage/*
 " and uncomment the part about jedi-vim instead
 " cd ~/.vim/bundle
 " git clone https://github.com/klen/python-mode
-"" map <Leader>g :call RopeGotoDefinition()<CR>
-"" let ropevim_enable_shortcuts = 1
-"" let g:pymode_rope_goto_def_newwin = "vnew"
-"" let g:pymode_rope_extended_complete = 1
-"" let g:pymode_breakpoint = 0
-"" let g:pymode_syntax = 1
-"" let g:pymode_syntax_builtin_objs = 0
-"" let g:pymode_syntax_builtin_funcs = 0
-"" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+" map <Leader>g :call RopeGotoDefinition()<CR>
+" let ropevim_enable_shortcuts = 1
+" let g:pymode_rope_goto_def_newwin = "vnew"
+" let g:pymode_rope_extended_complete = 1
+" let g:pymode_breakpoint = 0
+" let g:pymode_syntax = 1
+" let g:pymode_syntax_builtin_objs = 0
+" let g:pymode_syntax_builtin_funcs = 0
+" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
 " Settings for jedi-vim
 " cd ~/.vim/bundle
@@ -195,7 +191,7 @@ set wildignore+=*/coverage/*
 "" let g:jedi#usages_command = "<leader>z"
 "" let g:jedi#popup_on_dot = 0
 "" let g:jedi#popup_select_first = 0
-"" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
 " Better navigating through omnicomplete option list
 " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
