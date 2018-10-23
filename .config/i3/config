@@ -243,13 +243,14 @@ bindsym $mod+shift+f exec firefox
 bindsym $mod+o exec urxvt -e ranger
 
 # Screenshots
-bindsym --release $mod+shift+p exec --no-startup-id scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
-bindsym ctrl+p exec --no-startup-id scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
+bindsym --release $mod+shift+Home exec --no-startup-id scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
+bindsym $mod+Home exec --no-startup-id scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
 
 
 for_window [class="XTerm" title="^WiFi-Menu$"] floating enable
 for_window [class="^[fF]irefox" title="^(Save As|Open Upload)$"] floating enable, resize set 1400 1000, move position center
 for_window [class="^[cC]hromium" title="^(Save File|Open File?s)$"] floating enable, resize set 1400 1000, move position center
 for_window [class="[zZ]oom" title="^Participants \(\d+\)$"] floating enable, resize set 1400 1000, move position center
+for_window [class="[eE]volution" title="^Reminders$"] floating enable, resize set 1400 1000, move position center
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse
 

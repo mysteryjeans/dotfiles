@@ -19,6 +19,10 @@ set mouse=a  " on OSX press ALT and click
 "" set bs=2     " make backspace behave like normal again
 
 
+" Allows switch between unsaved files
+set hidden
+
+
 " Map CapsLock key as Escape
 au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
@@ -45,7 +49,7 @@ nnoremap <PageDown> <C-d>
 " Put 'stty -ixon' to disable Ctrl-S & Ctrl-Q in .bashrc
 noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <C-O>:update<CR>
+inoremap <C-S> <ESC>:update<CR>
 
 
 " Quick quit command
@@ -160,14 +164,14 @@ set laststatus=2
 " cd ~/.vim/bundle
 " git clone https://github.com/kien/ctrlp.vim.git
 let g:ctrlp_max_height = 30
-let g:ctrlp_map = '<c-o>'
+" let g:ctrlp_map = '<C-O>'
 let g:ctrlp_cmd = 'CtrlP'
 set wildignore+=*.pyc
 set wildignore+=*_build/*
 set wildignore+=*/coverage/*
-nnoremap <c-b> :CtrlPBuffer<CR>
-inoremap <c-b> <ESC>:CtrlPBuffer<CR>
-vnoremap <c-b> <ESC>:CtrlPBuffer<CR>
+nnoremap <C-B> :CtrlPBuffer<CR>
+inoremap <C-B> <ESC>:CtrlPBuffer<CR>
+vnoremap <C-B> <ESC>:CtrlPBuffer<CR>
 
 
 " Settings for python-mode
