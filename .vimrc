@@ -31,13 +31,14 @@ au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 " Rebind <Leader> key
 " I like to have it here becuase it is easier to reach than the default and
 " it is next to ``m`` and ``n`` which I use for navigating between tabs.
-let mapleader = "'"
+nnoremap <SPACE> <Nop>
+let mapleader = "\<Space>"
 
 
 " Bind nohl
 " Removes highlight of your last search
 " ``<C>`` stands for ``CTRL`` and therefore ``<C-n>`` stands for ``CTRL+n``
-map <C-n> :nohl<CR>
+map <C-f> :nohl<CR>
 
 
 " Fixing PageUp & PageDown key
@@ -91,8 +92,7 @@ vnoremap > >gv  " better indentation
 " mkdir -p ~/.vim/colors && cd ~/.vim/colors
 " wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
 " set t_Co=256
-" color wombat256mod
-
+" color dracula
 
 " Enable syntax highlighting
 " You need to reload this file for the change to apply
@@ -102,7 +102,7 @@ syntax on
 
 
 " Showing line numbers and length
-set number  " show line numbers
+set relativenumber  " show line relativenumbers
 set tw=119   " width of document (used by gd)
 set nowrap  " don't automatically wrap on load
 set fo-=t   " don't automatically wrap text when typing
@@ -131,7 +131,7 @@ set expandtab
 " Make search case insensitive
 set hlsearch
 set incsearch
-set ignorecase
+" set ignorecase
 set smartcase
 
 
@@ -140,6 +140,13 @@ set smartcase
 "" set nobackup
 "" set nowritebackup
 "" set noswapfile
+
+" Ignore files list
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+set wildignore+=*/node_modules/*
+set wildignore+=*/__pycache__/*
 
 
 " Setup Pathogen to manage your plugins
@@ -154,11 +161,24 @@ call pathogen#infect()
 " ============================================================================
 
 
+" Color theme setting
+" set t_Co=256                         " Enable 256 colors
+set termguicolors                    " Enable GUI colors for the terminal to get truecolor
+" let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+" let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
+
+
 " Settings for vim-powerline
 " cd ~/.vim/bundle
 " git clone git://github.com/Lokaltog/vim-powerline.git
 set laststatus=2
 
+
+" Settings for NERDTree plugin
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['^__pycache__$']
 
 " Settings for ctrlp
 " cd ~/.vim/bundle
@@ -166,9 +186,8 @@ set laststatus=2
 let g:ctrlp_max_height = 30
 " let g:ctrlp_map = '<C-O>'
 let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*.pyc
-set wildignore+=*_build/*
-set wildignore+=*/coverage/*
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '/assets\|/media'
 nnoremap <C-B> :CtrlPBuffer<CR>
 inoremap <C-B> <ESC>:CtrlPBuffer<CR>
 vnoremap <C-B> <ESC>:CtrlPBuffer<CR>

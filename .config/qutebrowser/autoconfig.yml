@@ -6,11 +6,25 @@ settings:
   bindings.commands:
     global:
       normal:
+        ;a: hint links spawn mpv --ytdl-format="bestaudio" {hint-url}
         ;m: hint links spawn mpv --hwdec=vaapi --ytdl-format="mp4[height<=720]/[height<=720]"
           {hint-url}
+        ;n: spawn mpv --hwdec=vaapi --ytdl-format="mp4[height<=720]/[height<=720]"
+          {url}
         J: tab-prev
         K: tab-next
+        d: null
         t: open -t
+        x: tab-close
+        z: spawn --userscript qute-lastpass
+  content.headers.user_agent:
+    global: null
+  content.host_blocking.whitelist:
+    global:
+    - piwik.org
+    - analytics.google.com
+  editor.encoding:
+    global: utf-8
   fonts.completion.category:
     global: bold 7pt monospace
   fonts.completion.entry:
@@ -35,8 +49,13 @@ settings:
     global: 7pt monospace
   fonts.tabs:
     global: 7pt monospace
+  fonts.web.family.cursive:
+    global: null
+  qt.highdpi:
+    global: false
   url.searchengines:
     global:
       DEFAULT: https://duckduckgo.com/?q={}
       aw: https://wiki.archlinux.org/index.php?search={}
       g: https://www.google.com/search?q={}
+      y: https://www.youtube.com/results?search_query={}

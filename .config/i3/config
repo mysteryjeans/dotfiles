@@ -240,7 +240,7 @@ exec_always feh --bg-scale /home/faraz/Pictures/wallpaper.jpg
 # Application shortcuts
 bindsym $mod+b exec QT_SCALE_FACTOR=1.4 qutebrowser
 bindsym $mod+shift+f exec firefox
-bindsym $mod+o exec urxvt -e ranger
+bindsym $mod+o exec i3-sensible-terminal -e ranger
 
 # Screenshots
 bindsym --release $mod+shift+Home exec --no-startup-id scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
