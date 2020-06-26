@@ -32,7 +32,7 @@ au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 " I like to have it here becuase it is easier to reach than the default and
 " it is next to ``m`` and ``n`` which I use for navigating between tabs.
 nnoremap <SPACE> <Nop>
-let mapleader = "\<Space>"
+let mapleader = "\\"
 
 " Bind nohl
 " Removes highlight of your last search
@@ -148,92 +148,148 @@ set wildignore+=*/node_modules/*
 set wildignore+=*/__pycache__/*
 
 
-"  " Setup Pathogen to manage your plugins
-"  " mkdir -p ~/.vim/autoload ~/.vim/bundle
-"  " curl -so ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-"  " Now you can install any plugin into a .vim/bundle/plugin-name/ folder
-"  call pathogen#infect()
-"  
-"  
+" Setup Pathogen to manage your plugins
+" mkdir -p ~/.vim/autoload ~/.vim/bundle
+" curl -so ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+" Now you can install any plugin into a .vim/bundle/plugin-name/ folder
+call pathogen#infect()
+
+
+" Color theme setting
+" set t_Co=256                         " Enable 256 colors
+set termguicolors                    " Enable GUI colors for the terminal to get truecolor
+" let ayucolor="light"  " for light version of theme
+" let ayucolor="mirage" " for mirage version of theme
+let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
+
+" IndentLine {{
+let g:indentLine_char = ''
+let g:indentLine_first_char = ''
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_setColors = 0
+" }}
+
 "  " ============================================================================
 "  " Python IDE Setup
 "  " ============================================================================
 "  
 "  
-"  " Color theme setting
-"  " set t_Co=256                         " Enable 256 colors
-"  set termguicolors                    " Enable GUI colors for the terminal to get truecolor
-"  " let ayucolor="light"  " for light version of theme
-"  let ayucolor="mirage" " for mirage version of theme
-"  " let ayucolor="dark"   " for dark version of theme
-"  colorscheme ayu
-"  
-"  
 "  " Settings for vim-powerline
 "  " cd ~/.vim/bundle
 "  " git clone git://github.com/Lokaltog/vim-powerline.git
-"  set laststatus=2
-"  
-"  
-"  " Settings for NERDTree plugin
-"  map <C-n> :NERDTreeToggle<CR>
-"  let NERDTreeIgnore = ['^__pycache__$']
-"  
-"  " Settings for ctrlp
-"  " cd ~/.vim/bundle
-"  " git clone https://github.com/kien/ctrlp.vim.git
-"  let g:ctrlp_max_height = 30
-"  " let g:ctrlp_map = '<C-O>'
-"  let g:ctrlp_cmd = 'CtrlP'
-"  let g:ctrlp_working_path_mode = 'ra'
-"  let g:ctrlp_custom_ignore = '/assets\|/media'
-"  nnoremap <C-B> :CtrlPBuffer<CR>
-"  inoremap <C-B> <ESC>:CtrlPBuffer<CR>
-"  vnoremap <C-B> <ESC>:CtrlPBuffer<CR>
-"  
-"  
-"  " Settings for python-mode
-"  " Note: I'm no longer using this. Leave this commented out
-"  " and uncomment the part about jedi-vim instead
-"  " cd ~/.vim/bundle
-"  " git clone https://github.com/klen/python-mode
-"  " map <Leader>g :call RopeGotoDefinition()<CR>
-"  " let ropevim_enable_shortcuts = 1
-"  " let g:pymode_rope_goto_def_newwin = "vnew"
-"  " let g:pymode_rope_extended_complete = 1
-"  " let g:pymode_breakpoint = 0
-"  " let g:pymode_syntax = 1
-"  " let g:pymode_syntax_builtin_objs = 0
-"  " let g:pymode_syntax_builtin_funcs = 0
-"  " map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
-"  
-"  " Settings for jedi-vim
-"  " cd ~/.vim/bundle
-"  " git clone git://github.com/davidhalter/jedi-vim.git
-"  "" let g:jedi#usages_command = "<leader>z"
-"  "" let g:jedi#popup_on_dot = 0
-"  "" let g:jedi#popup_select_first = 0
-"  map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
-"  
-"  " Better navigating through omnicomplete option list
-"  " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-"  "" set completeopt=longest,menuone
-"  "" function! OmniPopup(action)
-"  ""     if pumvisible()
-"  ""         if a:action == 'j'
-"  ""             return "\<C-N>"
-"  ""         elseif a:action == 'k'
-"  ""             return "\<C-P>"
-"  ""         endif
-"  ""     endif
-"  ""     return a:action
-"  "" endfunction
-"  
-"  "" inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-"  "" inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-"  
-"  
-"  " Python folding
-"  " mkdir -p ~/.vim/ftplugin
-"  " wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
-"  "" set nofoldenable
+set laststatus=2
+ 
+  
+" Settings for NERDTree plugin
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['^__pycache__$']
+
+" Settings for ctrlp
+" cd ~/.vim/bundle
+" git clone https://github.com/kien/ctrlp.vim.git
+let g:ctrlp_max_height = 30
+" let g:ctrlp_map = '<C-O>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '/assets\|/media'
+nnoremap <C-B> :CtrlPBuffer<CR>
+inoremap <C-B> <ESC>:CtrlPBuffer<CR>
+vnoremap <C-B> <ESC>:CtrlPBuffer<CR>
+
+"Omnisharp settings
+
+" Use the stdio version of OmniSharp-roslyn:
+let g:OmniSharp_server_stdio = 1
+
+" Using installed mono 
+let g:OmniSharp_server_use_mono = 0
+
+" Using only Omnisharp for ale linter
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+
+let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
+
+" Timeout in seconds to wait for a response from the server
+let g:OmniSharp_timeout = 5
+
+" Don't autoselect first omnicomplete option, show options even if there is only
+" one (so the preview documentation is accessible). Remove 'preview', 'popup'
+" and 'popuphidden' if you don't want to see any documentation whatsoever.
+" Note that neovim does not support `popuphidden` or `popup` yet: 
+" https://github.com/neovim/neovim/issues/10996
+set completeopt=longest,menuone,preview,popuphidden
+
+" Highlight the completion documentation popup background/foreground the same as
+" the completion menu itself, for better readability with highlighted
+" documentation.
+set completepopup=highlight:Pmenu,border:off
+
+
+" Fetch full documentation during omnicomplete requests.
+" By default, only Type/Method signatures are fetched. Full documentation can
+" still be fetched when you need it with the :OmniSharpDocumentation command.
+"let g:omnicomplete_fetch_full_documentation = 1
+
+" Set desired preview window height for viewing documentation.
+" You might also want to look at the echodoc plugin.
+set previewheight=5
+
+" Update semantic highlighting on BufEnter, InsertLeave and TextChanged
+let g:OmniSharp_highlight_types = 2
+
+augroup omnisharp_commands
+    autocmd!
+
+    " Show type information automatically when the cursor stops moving.
+    " Note that the type is echoed to the Vim command line, and will overwrite
+    " any other messages in this space including e.g. ALE linting messages.
+    autocmd CursorHold *.cs OmniSharpTypeLookup
+
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+
+    " Finds members in the current buffer
+    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+
+    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+    autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+    autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+
+    " Navigate up and down by method/property/field
+    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+
+    " Find all code errors/warnings for the current solution and populate the quickfix window
+    autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+augroup END
+
+" Contextual code actions (uses fzf, CtrlP or unite.vim when available)
+nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
+" Run code actions with text selected in visual mode to extract method
+xnoremap <Leader><Space> :call OmniSharp#GetCodeActions('visual')<CR>
+
+" Rename with dialog
+nnoremap <Leader>nm :OmniSharpRename<CR>
+nnoremap <F2> :OmniSharpRename<CR>
+" Rename without dialog - with cursor on the symbol to rename: `:Rename newname`
+command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+
+nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
+
+" Start the omnisharp server for the current solution
+nnoremap <Leader>ss :OmniSharpStartServer<CR>
+nnoremap <Leader>sp :OmniSharpStopServer<CR>
+
+" Enable snippet completion
+" let g:OmniSharp_want_snippet=1
+
+" Notes settings
+let g:notes_directories = ['~/Documents/Notes']
+let g:notes_suffix = '.md'
+let g:notes_unicode_enabled = 0

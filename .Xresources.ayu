@@ -6,67 +6,72 @@ Xft.autohint:  false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 
-XTerm*background:        #1f2430
-XTerm*foreground:        #bfbab0
-XTerm*pointerColor:      #ffcc66
+!XTerm*background:        #1f2430
+!XTerm*foreground:        #bfbab0
+!XTerm*pointerColor:      #ffcc66
 XTerm*faceName:          Fixed
 XTerm*faceSize:          11
 XTerm*reverseVideo:      on
 XTerm*selectToClipboard: true
 
-*fading:                          8
-*fadeColor:                       black
-*pointerColorBackground:          #2B2C2B
-*pointerColorForeground:          #16A085
+! *fading:                          8
+! *fadeColor:                       black
+! *pointerColorBackground:          #2B2C2B
+! *pointerColorForeground:          #16A085
 
-*.foreground:   #bfbab0
-*.background:   #1f2430
-*.cursorColor:  #ffcc66
+
+urxvt*lineSpace:        4
+urxvt*internalBorder:	  12
+
+! Special
+
+*.foreground:   #6c7680
+*.background:   [92]#fafafa
+*.cursorColor:  #ff9940
 
 ! Black
 
-*.color0:       #1f2430
-*.color8:       #292b30
+*.color0:       #6c7680
+*.color8:       #cbccc6
 
 ! Red
 
-*.color1:       #ff3333
-*.color9:       #ff6666
+*.color1:       #f51818
+*.color9:       #ff3333
 
 ! Green
 
-*.color2:       #bae67e
-*.color10:      #cee6ac
+*.color2:       #86b300
+*.color10:      #bae67e
 
 ! Yellow
 
-*.color3:       #ffd580
-*.color11:      #ffe6b3
+*.color3:       #fa8d3e
+*.color11:      #ffa759
 
 ! Blue
 
-*.color4:       #73d0ff
-*.color12:      #a6e1ff
+*.color4:       #399ee6
+*.color12:      #73d0ff
 
 ! Magenta
 
-*.color5:       #f28779
-*.color13:      #ffd6da
+*.color5:       #f07171
+*.color13:      #f28779
 
 ! Cyan
 
-*.color6:       #95e6cb
-*.color14:      #ffffff
+*.color6:       #4cbf99
+*.color14:      #95e6cb
 
 ! White
 
 *.color7:       #ffffff
 *.color15:      #ffffff
 
-
 ! Bold, Italic, Underline
 
-*.colorBD:     #e6e1cf
+*.colorBD:      #6c7680
 !*.colorIT:
 !*.colorUL:
 
@@ -75,14 +80,13 @@ Xcursor.theme: xcursor-breeze
 Xcursor.size:                     0
 
 !URxvt.font:                       xft:Hack:size=10
-URxvt.font:                       xft:Hack:size=10,xft:RobotoMonoforPowerline:size=10,xft:TerminessTTFNerdFontMono:size=13
+URxvt.font:                       xft:Hack:size=10,xft:RobotoMonoforPowerline:size=10
 
 ! alternative font settings with 'terminus':
 ! URxvt.font:      -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
 ! URxvt.bold.font: -xos4-terminus-bold-r-normal--16-160-72-72-c-80-iso10646-1
 !! terminus names see end of file!
 
-URxvt.termName:                   rxvt-unicode
 URxvt.depth:                      32
 !URxvt.background:                 [100]#222D31
 URxvt*scrollBar:                  false
