@@ -145,7 +145,7 @@ assign [title="[nN]otorious"] $ws6
 assign [class="[sS]kype"] $ws7
 assign [class="[zZ]oom"] $ws8
 assign [class="org.remmina.Remmina|VirtualBox Manager|VirtualBox Machine|[vV]irt-manager"] $ws9
-assign [class="mpv|vlc|Popcorn-Time|q[bB]ittorrent"] $ws10
+assign [class="mpv|vlc|Popcorn-Time|q[bB]ittorrent|obs"] $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
