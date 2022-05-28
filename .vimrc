@@ -24,8 +24,8 @@ set hidden
 
 
 " Map CapsLock key as Escape
-au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
+"au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+"au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 
 
 " Rebind <Leader> key
@@ -71,7 +71,7 @@ map <Leader>m <esc>:tabnext<CR>
 
 
 " map sort function to a key
-vnoremap <Leader>s :sort<CR>
+vnoremap <Leader>s :sort r /[^;]*/<CR>
 
 
 " easier moving of code blocks
@@ -85,19 +85,6 @@ vnoremap > >gv  " better indentation
 " MUST be inserted BEFORE the colorscheme command
 " autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 " au InsertLeave * match ExtraWhitespace /\s\+$/
-
-
-" Color scheme
-" mkdir -p ~/.vim/colors && cd ~/.vim/colors
-" wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
-" set t_Co=256
-" color dracula
-
-" Enable syntax highlighting
-" You need to reload this file for the change to apply
-filetype off
-filetype plugin indent on
-syntax on
 
 
 " Showing line numbers and length
@@ -147,39 +134,73 @@ set wildignore+=*/coverage/*
 set wildignore+=*/node_modules/*
 set wildignore+=*/__pycache__/*
 
+filetype off
+syntax off
 
 " Setup Pathogen to manage your plugins
 " mkdir -p ~/.vim/autoload ~/.vim/bundle
 " curl -so ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 " Now you can install any plugin into a .vim/bundle/plugin-name/ folder
-call pathogen#infect()
+call plug#begin('~/.vim/plugged')
 
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'junegunn/vim-easy-align'
+
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+" Using a non-default branch
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'dracula/vim', { 'as': 'dracula' }
+
+Plug 'ayu-theme/ayu-vim' 
+
+Plug 'ctrlpvim/ctrlp.vim'
+
+"Plug 'Yggdroot/indentLine'
+
+Plug 'OmniSharp/omnisharp-vim'
+
+"Plug 'dense-analysis/ale'
+
+" For ale errors in status bar
+Plug 'vim-airline/vim-airline' 
+
+Plug 'vim-syntastic/syntastic'
+
+Plug 'hauleth/asyncdo.vim'
+
+Plug 'puremourning/vimspector'
+
+" Initialize plugin system
+call plug#end()
+
+" Enable syntax highlighting
+" You need to reload this file for the change to apply
+filetype plugin indent on
+syntax on
 
 " Color theme setting
 " set t_Co=256                         " Enable 256 colors
 set termguicolors                    " Enable GUI colors for the terminal to get truecolor
-" let ayucolor="light"  " for light version of theme
-" let ayucolor="mirage" " for mirage version of theme
-let ayucolor="dark"   " for dark version of theme
-colorscheme ayu
+""let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+"colorscheme ayu
 
+let g:dracula_italic = 0
+colorscheme dracula
+
+" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 " IndentLine {{
-let g:indentLine_char = ''
-let g:indentLine_first_char = ''
-let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_char = '┊'
+let g:indentLine_first_char = '┊'
+let g:indentLine_showFirstIndentLevel = 0
 let g:indentLine_setColors = 0
 " }}
-
-"  " ============================================================================
-"  " Python IDE Setup
-"  " ============================================================================
-"  
-"  
-"  " Settings for vim-powerline
-"  " cd ~/.vim/bundle
-"  " git clone git://github.com/Lokaltog/vim-powerline.git
-set laststatus=2
- 
   
 " Settings for NERDTree plugin
 map <C-n> :NERDTreeToggle<CR>
@@ -197,94 +218,74 @@ nnoremap <C-B> :CtrlPBuffer<CR>
 inoremap <C-B> <ESC>:CtrlPBuffer<CR>
 vnoremap <C-B> <ESC>:CtrlPBuffer<CR>
 
-"Omnisharp settings
+set completeopt=longest,menuone,popuphidden
 
-" Use the stdio version of OmniSharp-roslyn:
-let g:OmniSharp_server_stdio = 1
+" Tell ALE to use OmniSharp for linting C# files, and no other linters.
+"let g:ale_linters = { 'cs': ['OmniSharp'] }
+"let g:airline#extensions#ale#enabled = 1
 
-" Using installed mono 
-let g:OmniSharp_server_use_mono = 0
+" syntastic {{
+let g:syntastic_cs_checkers = ['code_checker']
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-" Using only Omnisharp for ale linter
-let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" }}
 
-let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
-
-" Timeout in seconds to wait for a response from the server
-let g:OmniSharp_timeout = 5
-
-" Don't autoselect first omnicomplete option, show options even if there is only
-" one (so the preview documentation is accessible). Remove 'preview', 'popup'
-" and 'popuphidden' if you don't want to see any documentation whatsoever.
-" Note that neovim does not support `popuphidden` or `popup` yet: 
-" https://github.com/neovim/neovim/issues/10996
-set completeopt=longest,menuone,preview,popuphidden
-
-" Highlight the completion documentation popup background/foreground the same as
-" the completion menu itself, for better readability with highlighted
-" documentation.
-set completepopup=highlight:Pmenu,border:off
-
-
-" Fetch full documentation during omnicomplete requests.
-" By default, only Type/Method signatures are fetched. Full documentation can
-" still be fetched when you need it with the :OmniSharpDocumentation command.
-"let g:omnicomplete_fetch_full_documentation = 1
-
-" Set desired preview window height for viewing documentation.
-" You might also want to look at the echodoc plugin.
-set previewheight=5
-
-" Update semantic highlighting on BufEnter, InsertLeave and TextChanged
-let g:OmniSharp_highlight_types = 2
+let g:OmniSharp_server_use_mono = 1
 
 augroup omnisharp_commands
-    autocmd!
+  autocmd!
 
-    " Show type information automatically when the cursor stops moving.
-    " Note that the type is echoed to the Vim command line, and will overwrite
-    " any other messages in this space including e.g. ALE linting messages.
-    autocmd CursorHold *.cs OmniSharpTypeLookup
+  " Show type information automatically when the cursor stops moving.
+  " Note that the type is echoed to the Vim command line, and will overwrite
+  " any other messages in this space including e.g. ALE linting messages.
+  autocmd CursorHold *.cs OmniSharpTypeLookup
 
-    " The following commands are contextual, based on the cursor position.
-    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+  " The following commands are contextual, based on the cursor position.
+  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>fu <Plug>(omnisharp_find_usages)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>fi <Plug>(omnisharp_find_implementations)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>pd <Plug>(omnisharp_preview_definition)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>pi <Plug>(omnisharp_preview_implementations)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>tl <Plug>(omnisharp_type_lookup)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>d <Plug>(omnisharp_documentation)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>fs <Plug>(omnisharp_find_symbol)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>fx <Plug>(omnisharp_fix_usings)
+  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
 
-    " Finds members in the current buffer
-    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+  " Navigate up and down by method/property/field
+  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
+  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
+  " Find all code errors/warnings for the current solution and populate the quickfix window
+  autocmd FileType cs nmap <silent> <buffer> <Leader>gcc <Plug>(omnisharp_global_code_check)
+  " Contextual code actions (uses fzf, vim-clap, CtrlP or unite.vim selector when available)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ca <Plug>(omnisharp_code_actions)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>ca <Plug>(omnisharp_code_actions)
+  " Repeat the last code action performed (does not use a selector)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
 
-    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
-    autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
-    autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+  autocmd FileType cs nmap <silent> <buffer> <Leader>= <Plug>(omnisharp_code_format)
 
-    " Navigate up and down by method/property/field
-    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
-    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+  autocmd FileType cs nmap <silent> <buffer> <Leader>nm <Plug>(omnisharp_rename)
 
-    " Find all code errors/warnings for the current solution and populate the quickfix window
-    autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
+"  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
+"  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
 augroup END
 
-" Contextual code actions (uses fzf, CtrlP or unite.vim when available)
-nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
-" Run code actions with text selected in visual mode to extract method
-xnoremap <Leader><Space> :call OmniSharp#GetCodeActions('visual')<CR>
-
-" Rename with dialog
-nnoremap <Leader>nm :OmniSharpRename<CR>
-nnoremap <F2> :OmniSharpRename<CR>
-" Rename without dialog - with cursor on the symbol to rename: `:Rename newname`
-command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-
+" Enable snippet completion, using the ultisnips plugin
+" let g:OmniSharp_want_snippet=1
 nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
 
-" Start the omnisharp server for the current solution
-nnoremap <Leader>ss :OmniSharpStartServer<CR>
-nnoremap <Leader>sp :OmniSharpStopServer<CR>
+
+let g:vimspector_enable_mappings = 'HUMAN'
 
 " Enable snippet completion
 " let g:OmniSharp_want_snippet=1
