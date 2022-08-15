@@ -177,7 +177,7 @@ Plug 'puremourning/vimspector'
 
 " Initialize plugin system
 call plug#end()
-
+ 
 " Enable syntax highlighting
 " You need to reload this file for the change to apply
 filetype plugin indent on
@@ -218,6 +218,8 @@ nnoremap <C-B> :CtrlPBuffer<CR>
 inoremap <C-B> <ESC>:CtrlPBuffer<CR>
 vnoremap <C-B> <ESC>:CtrlPBuffer<CR>
 
+" let g:coc_global_extensions=[ 'coc-omnisharp']
+
 set completeopt=longest,menuone,popuphidden
 
 " Tell ALE to use OmniSharp for linting C# files, and no other linters.
@@ -236,7 +238,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 " }}
 
-let g:OmniSharp_server_use_mono = 1
+" let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 
 augroup omnisharp_commands
   autocmd!

@@ -1,0 +1,8 @@
+#!/bin/bash 
+eval ponymix --input is-muted 
+if [ $? -eq 0 ]; 
+then 
+    echo "" 
+else 
+    echo "" 
+fi
